@@ -102,6 +102,10 @@ namespace AdiIRC_Encrypt {
 						return;
 					}
 				}
+				//Check for ctcp
+				if (args[2][1] == '\x01') {
+					return;
+				}
 				//OK it's a PRIVMSG to a USER... and args[2] should be the entire message other than the ':' prefix
 				if (keys.HasKey(args[1])) {
 					byte[] nonce = RNG.GetBytes(24);
