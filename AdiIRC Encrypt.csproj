@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{B9AE91C9-D108-4D9D-A2F1-6BBD339A63BE}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>AdiIRC_Encrypt</RootNamespace>
+    <AssemblyName>AdiIRC Encrypt</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AdiIRCAPI">
+      <HintPath>..\..\AdiIRC\AdiIRCAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdiIRCPlugin.cs" />
+    <Compile Include="Chaos.NaCl\CryptoBytes.cs" />
+    <Compile Include="Chaos.NaCl\Ed25519.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Array16.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Array8.cs" />
+    <Compile Include="Chaos.NaCl\Internal\ByteIntegerConverter.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\base.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\base2.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\d.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\d2.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_0.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_1.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_add.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_cmov.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_cswap.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_frombytes.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_invert.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_isnegative.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_isnonzero.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_mul.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_mul121666.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_neg.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_pow22523.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_sq.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_sq2.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_sub.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\fe_tobytes.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\FieldElement.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_add.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_double_scalarmult.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_frombytes.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_madd.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_msub.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_p1p1_to_p2.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_p1p1_to_p3.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_p2_0.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_p2_dbl.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_p3_0.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_p3_dbl.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_p3_tobytes.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_p3_to_cached.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_p3_to_p2.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_precomp_0.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_scalarmult_base.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_sub.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\ge_tobytes.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\GroupElement.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\keypair.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\open.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\scalarmult.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\sc_clamp.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\sc_mul_add.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\sc_reduce.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\sign.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Ed25519Ref10\sqrtm1.cs" />
+    <Compile Include="Chaos.NaCl\Internal\InternalAssert.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Poly1305Donna.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Salsa\Salsa20.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Salsa\SalsaCore.cs" />
+    <Compile Include="Chaos.NaCl\Internal\Sha512Internal.cs" />
+    <Compile Include="Chaos.NaCl\MontgomeryCurve25519.cs" />
+    <Compile Include="Chaos.NaCl\OneTimeAuth.cs" />
+    <Compile Include="Chaos.NaCl\Poly1305.cs" />
+    <Compile Include="Chaos.NaCl\Sha512.cs" />
+    <Compile Include="Chaos.NaCl\XSalsa20Poly1305.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="PMEncrypt.cs" />
+    <Compile Include="PMKey.cs" />
+    <Compile Include="PMKeyContainer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RNG.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Chaos.NaCl" />
+    <Folder Include="Chaos.NaCl\Internal" />
+    <Folder Include="Chaos.NaCl\Internal\Ed25519Ref10" />
+    <Folder Include="Chaos.NaCl\Internal\Salsa" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Chaos.NaCl\Internal\Salsa\replace regex.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
