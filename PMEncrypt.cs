@@ -39,7 +39,7 @@ namespace AdiIRC_Encrypt {
 				case msgHasPluginTag:
 					// user has the plugin, which means we can send messages and have them intercepted...
 					// Send our Pub Key.
-					lastRawSent = string.Format("PRIVMSG {0} :{1}", user.Nick, msgPluginMsg + "PK1" + keys[user.Nick].MyPublicKey.ToBase64String());
+					lastRawSent = string.Format("PRIVMSG {0} :{1}", user.Nick, msgPluginMsg + "PK1" + keys[user.Nick].MyPublicKey.IrcEncode());
 					server.SendRaw(lastRawSent);
 					// We eat this and use a fake send to let our message be below the original message.
 					result = EatData.EatAll;
@@ -54,15 +54,15 @@ namespace AdiIRC_Encrypt {
 					switch (msgType) {
 						case "PK1":
 							// a response to "HasPlugin" tag. store the key and send ours.
-							keys[user.Nick].SetUsersPublicKey(message.Substring(7).ReadBase64());
-							lastRawSent = string.Format("PRIVMSG {0} :{1}", user.Nick, msgPluginMsg + "PK2" + keys[user.Nick].MyPublicKey.ToBase64String());
+							keys[user.Nick].SetUsersPublicKey(message.Substring(7).IrcDecode());
+							lastRawSent = string.Format("PRIVMSG {0} :{1}", user.Nick, msgPluginMsg + "PK2" + keys[user.Nick].MyPublicKey.IrcEncode());
 							server.SendRaw(lastRawSent);
 							host.NotifyUser(user, "Received public key, sending ours");
 							result = EatData.EatAll;
 							break;
 						case "PK2":
 							// a response to PK1, at this point we should have a priv key already and can create a shared key.
-							keys[user.Nick].SetUsersPublicKey(message.Substring(7).ReadBase64());
+							keys[user.Nick].SetUsersPublicKey(message.Substring(7).IrcDecode());
 							host.NotifyUser(user, "Received public key.");
 							result = EatData.EatAll;
 							break;
@@ -71,7 +71,7 @@ namespace AdiIRC_Encrypt {
 				case msgEncryptedTag:
 					// An encrypted message, attempt to decrypt it.
 					if (keys.HasKey(user.Nick)) {
-						byte[] data = message.Substring(4).ReadBase64();
+						byte[] data = message.Substring(4).IrcDecode();
 						byte[] msgData = XSalsa20Poly1305.TryDecrypt(data.SubArray(24), keys[user.Nick].SharedKey, data.SubArray(0, 24));
 						if (msgData == null) {
 							host.NotifyUser(user, "Failed to decrypt message! Sending public key again.");
@@ -110,7 +110,10 @@ namespace AdiIRC_Encrypt {
 				if (keys.HasKey(args[1])) {
 					byte[] nonce = RNG.GetBytes(24);
 					byte[] encMsg = XSalsa20Poly1305.Encrypt(Encoding.UTF8.GetBytes(args[2].Substring(1)), keys[args[1]].SharedKey, nonce);
-					string encMessage = msgEncryptedTag + nonce.ToBase64String() + encMsg.ToBase64String();
+					byte[] msgData = new byte[nonce.Length + encMsg.Length];
+					nonce.CopyTo(msgData, 0);
+					encMsg.CopyTo(msgData, nonce.Length);
+					string encMessage = msgEncryptedTag + msgData.IrcEncode();
 					lastRawSent = string.Format("PRIVMSG {0} :{1}", args[1], encMessage);
 					server.SendRaw(lastRawSent);
 					result = EatData.EatAll;
