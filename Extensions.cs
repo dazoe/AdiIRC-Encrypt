@@ -58,7 +58,7 @@ namespace AdiIRC_Encrypt {
 					encoded.Append((char)nc);
 				}
 				//add the carry....
-				if ((r == 0) || (nc == 1)|| (r == '\n') || (r == '\r') || (r == escapeChar)) { //escaping
+				if ((r == 0) || (r == 1)|| (r == '\n') || (r == '\r') || (r == escapeChar)) { //escaping
 					r = r + escapeChar;
 					encoded.Append(escapeChar);
 				}
