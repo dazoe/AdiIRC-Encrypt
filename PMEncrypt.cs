@@ -38,7 +38,7 @@ namespace AdiIRC_Encrypt {
 			}
 			string message = string.Format("PRIVMSG {0} :", prefix);
 			server.SendRawData(server.Encoding.GetBytes(message).Concatenate(new byte[]{responseType}, keys[prefix].MyPublicKey.IrcEscape(), CRLF));
-			host.NotifyUser(server.FindUser(prefix), string.Format("Sending public key {0:X}", responseType));
+			host.NotifyUser(server.FindUser(prefix), string.Format("Sending public key."));
 		}
 		private void OnKeyEnquire(IServer server, string prefix, byte[] trailing) {
 			// Recived PUB key, the other end still needs ours.
@@ -47,7 +47,7 @@ namespace AdiIRC_Encrypt {
 			}
 			keys[prefix].SetUsersPublicKey(trailing.SubArray(1).IrcUnescape());
 			SendMyKey(server, prefix, msgKeyAcknowledge);
-			host.NotifyUser(server.FindUser(prefix), string.Format("Received public key {0:X}", msgKeyEnquire));
+			host.NotifyUser(server.FindUser(prefix), string.Format("Received public key."));
 		}
 		private void OnKeyAcknowledge(IServer server, string prefix, byte[] trailing) {
 			// Received PUB key, the other end already has ours.
@@ -55,7 +55,7 @@ namespace AdiIRC_Encrypt {
 				prefix = prefix.Substring(0, prefix.IndexOf('!'));
 			}
 			keys[prefix].SetUsersPublicKey(trailing.SubArray(1).IrcUnescape());
-			host.NotifyUser(server.FindUser(prefix), string.Format("Received public key {0:X}", msgKeyAcknowledge));
+			host.NotifyUser(server.FindUser(prefix), string.Format("Received public key."));
 		}
 		private byte[] EncryptMessage(string prefix, byte[] message) {
 			if (prefix.Contains("!")) {
@@ -145,7 +145,7 @@ namespace AdiIRC_Encrypt {
 					break;
 				case msgEncrypted:
 					//Encrypted message, decrypt it and pass it on.
-					host.NotifyUser("Received Data: " + trailing.SubArray(1).ToBase64String());
+					//host.NotifyUser("Received Data: " + trailing.SubArray(1).ToBase64String());
 					byte[] decMsg = DecryptMessage(prefix, trailing.IrcUnescape(), 1);
 					e.Bytes = e.Bytes.SubArray(0, offset); //Everything upto and including the :
 					e.Bytes = e.Bytes.Concatenate(decMsg); //tack on the message. 
@@ -178,7 +178,7 @@ namespace AdiIRC_Encrypt {
 				//We have a key for the user, Encrypt the message.
 				string msgStart = string.Format("PRIVMSG {0} :", args[1]);
 				byte[] msgData = EncryptMessage(args[1], server.Encoding.GetBytes(args[2].Substring(1))).IrcEscape();
-				host.NotifyUser("Sending Data: " + msgData.ToBase64String());
+				//host.NotifyUser("Sending Data: " + msgData.ToBase64String());
 				server.SendRawData(server.Encoding.GetBytes(msgStart).Concatenate(new byte[]{ msgEncrypted }, msgData, CRLF));
 				result = EatData.EatAll;
 				return;
