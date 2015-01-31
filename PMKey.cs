@@ -3,7 +3,7 @@ using AdiIRCAPI;
 using Chaos.NaCl;
 
 namespace AdiIRC_Encrypt {
-	public class PMKey {
+	public class PMKey : IDisposable {
 		private string user;
 		private byte[] myPrivKey;
 		public byte[] MyPublicKey {
@@ -28,6 +28,10 @@ namespace AdiIRC_Encrypt {
 			usersPubKey = pubKey;
 			sharedKey = MontgomeryCurve25519.KeyExchange(usersPubKey, myPrivKey);
 			MontgomeryCurve25519.KeyExchangeOutputHashNaCl(sharedKey, 0);
+		}
+
+		public void Dispose() {
+			CryptoBytes.InternalWipe(myPrivKey, 0, myPrivKey.Length);
 		}
 	}
 }

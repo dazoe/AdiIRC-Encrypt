@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AdiIRCAPI;
+using Chaos.NaCl;
 
 namespace AdiIRC_Encrypt {
 	public class PMKeyContainer {
@@ -10,24 +11,28 @@ namespace AdiIRC_Encrypt {
 			store = new Dictionary<string, PMKey>();
 		}
 		
-		public bool HasKey(string user) {
-			return ((store.ContainsKey(user)) && (store[user].SharedKey != null));
+		public bool HasKey(string idx) {
+			return ((store.ContainsKey(idx)) && (store[idx].SharedKey != null));
 		}
-		
-		public PMKey this[string key] {
+		public void DeleteKey(string idx) {
+			if (store.ContainsKey(idx)) {
+				store.Remove(idx);
+			}
+		}
+		public PMKey this[string idx] {
 			get {
-				if (store.ContainsKey(key)) {
-					return store[key];
+				if (store.ContainsKey(idx)) {
+					return store[idx];
 				}
-				PMKey result = new PMKey(key);
-				store.Add(key, result);
+				PMKey result = new PMKey(idx);
+				store.Add(idx, result);
 				return result;
 			}
 			set {
-				if (store.ContainsKey(key)) {
-					store.Remove(key);
+				if (store.ContainsKey(idx)) {
+					store.Remove(idx);
 				}
-				store.Add(key, value);
+				store.Add(idx, value);
 			}
 		}
 		
