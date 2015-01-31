@@ -19,27 +19,6 @@ namespace AdiIRC_Encrypt {
 			string line = string.Format(":{0}!{1}@{2} PRIVMSG {3} :{4}", source.Nick, source.Ident, source.Host, server.UserNick, msg);
 			return server.SendFakeRaw(line);
 		}
-		//TODO: remove this bit of hackery when the API is updated.
-		private static Assembly GetAdiIRCAssembly() {
-			if (adiIRC == null) {
-				Assembly[] allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-				for (int i = 0; i < allAssemblies.Length; i++) {
-					if (allAssemblies[i].GetName().Name == "AdiIRC") {
-						adiIRC = allAssemblies[i];
-						break;
-					}
-				}
-			}
-			return adiIRC;
-		}
-		public static IUser FindUser(this IServer server, string prefix) {
-			if (prefix.Contains("!")) {
-				prefix = prefix.Substring(0, prefix.IndexOf('!'));
-			}
-			Type serverT = GetAdiIRCAssembly().GetType("AdiIRC.IRC.Core.Server");
-			MethodInfo mi = serverT.GetMethod("FindUser", BindingFlags.NonPublic | BindingFlags.Instance);
-			return mi.Invoke(server, new object[]{ prefix }) as IUser;
-		}
 
 		// Extending byte[]
 		public static byte[] SubArray(this byte[] data, int startIdx, int length = 0) {
