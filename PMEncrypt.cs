@@ -97,7 +97,7 @@ namespace AdiIRC_Encrypt {
 			offset = spaceIdx + 1;
 			spaceIdx = Array.IndexOf<byte>(e.Bytes, 0x20, offset);
 			if (spaceIdx <= offset) {
-				host.NotifyUser("AdiIRC Encrypt: couldn't find space after command");
+				//couldn't find space after command, so it's not a PRIVMSG
 				return;
 			}
 			string command = e.Server.Encoding.GetString(e.Bytes, offset, spaceIdx - offset);
