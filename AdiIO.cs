@@ -11,7 +11,8 @@ namespace AdiIRC_Encrypt {
 	public delegate byte[] OnOldEncryptedMessage(IServer server, string prefix, byte[] data);
 
 	public class AdiIO : IDisposable {
-		private IPluginHost host;
+		public IPluginHost Host { get; set; }
+		public ITools Tools { get; set; }
 		private Thread sendMessageThread;
 		private bool sendMessageThreadRun;
 		private int mSecondsPerMessage;
@@ -42,14 +43,15 @@ namespace AdiIRC_Encrypt {
 		public OnOldEncryptedMessage OnMsgEncrypted;
 		
 		
-		public AdiIO(IPluginHost Host) {
-			host = Host;
+		public AdiIO(IPluginHost Host, ITools Tools) {
+			this.Host = Host;
+			this.Tools = Tools;
 			outputMessages = new Queue<Tuple<IServer, byte[]>>();
 			incommingMessages = new Dictionary<string, Tuple<IServer, string, byte[]>>();
 			sendMessageThread = new Thread(SendMessageThread);
 			sendMessageThreadRun = true;
 			sendMessageThread.Start();
-			host.OnRawData += OnRawData;
+			Host.OnRawData += OnRawData;
 		}
 
 		private void DoOnUserHasPlugin(IServer server, string prefix) {
@@ -82,7 +84,7 @@ namespace AdiIRC_Encrypt {
 			int offset = 1;
 			int spaceIdx = Array.IndexOf<byte>(e.Bytes, 0x20, offset);
 			if (spaceIdx <= offset) {
-				host.NotifyUser("AdiIRC Encrypt: couldn't find space after prefix");
+				Host.NotifyUser("AdiIRC Encrypt: couldn't find space after prefix");
 				return;
 			}
 			string prefix = e.Server.Encoding.GetString(e.Bytes, offset, spaceIdx - offset);
